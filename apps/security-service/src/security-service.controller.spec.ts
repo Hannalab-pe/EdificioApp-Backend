@@ -15,8 +15,8 @@ describe('SecurityServiceController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(securityServiceController.getHello()).toBe('Hello World!');
+    it('should return "Security Service - Ready to develop!"', () => {
+      expect(securityServiceController.getHello()).toBe('Security Service - Ready to develop!');
     });
   });
 });

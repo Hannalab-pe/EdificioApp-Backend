@@ -1,0 +1,25 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuditoriaAcceso } from './AuditoriaAcceso';
+import { ConfiguracionSeguridad } from './ConfiguracionSeguridad';
+import { DocumentoIdentidad } from './DocumentoIdentidad';
+import { Permiso } from './Permiso';
+import { Rol } from './Rol';
+import { RolPermiso } from './RolPermiso';
+import { SesionUsuario } from './SesionUsuario';
+import { Usuario } from './Usuario';
+
+@Module({
+    imports: [TypeOrmModule.forFeature([
+        AuditoriaAcceso,
+        ConfiguracionSeguridad,
+        DocumentoIdentidad,
+        Permiso,
+        Rol,
+        RolPermiso,
+        SesionUsuario,
+        Usuario,
+    ])],
+    exports: [TypeOrmModule],
+})
+export class EntitiesModule { }
