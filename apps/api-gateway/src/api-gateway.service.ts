@@ -7,7 +7,7 @@ export class ApiGatewayService {
   private readonly logger = new Logger(ApiGatewayService.name);
 
   constructor(
-    @Inject('AUTH_SERVICE') private authService: ClientProxy,
+    @Inject('SECURITY_SERVICE') private authService: ClientProxy,
     @Inject('PEOPLE_SERVICE') private peopleService: ClientProxy,
     @Inject('PROPERTY_SERVICE') private propertyService: ClientProxy,
   ) { }
@@ -18,7 +18,7 @@ export class ApiGatewayService {
       version: '1.0.0',
       description: 'Gateway para sistema de gestión de condominios',
       microservices: [
-        'auth-service',
+        'security-service',
         'people-service',
         'property-service',
         'financial-service',
@@ -35,7 +35,7 @@ export class ApiGatewayService {
 
   async getSystemStatus() {
     const services = [
-      { name: 'auth-service', client: this.authService },
+      { name: 'security-service', client: this.authService },
       { name: 'people-service', client: this.peopleService },
       { name: 'property-service', client: this.propertyService },
     ];

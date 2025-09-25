@@ -19,13 +19,13 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
-    "auth-service": {
+    "security-service": {
       "type": "application",
-      "root": "apps/auth-service",
+      "root": "apps/security-service",
       "entryFile": "main",
-      "sourceRoot": "apps/auth-service/src",
+      "sourceRoot": "apps/security-service/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/auth-service/tsconfig.app.json"
+        "tsConfigPath": "apps/security-service/tsconfig.app.json"
       }
     },
     "condominio-microservicios": {

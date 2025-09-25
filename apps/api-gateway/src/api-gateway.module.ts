@@ -16,11 +16,11 @@ import { HealthModule } from './modules/health/health.module';
     // Clientes de microservicios
     ClientsModule.register([
       {
-        name: 'AUTH_SERVICE',
+        name: 'SECURITY_SERVICE',
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
-          queue: 'auth_queue',
+          queue: 'security_queue',
           queueOptions: {
             durable: true,
           },

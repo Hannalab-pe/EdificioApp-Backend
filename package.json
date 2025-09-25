@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/condominio-microservicios/test/jest-e2e.json",
     "start:gateway": "nest start api-gateway --watch",
-    "start:auth": "nest start auth-service --watch",
+    "start:auth": "nest start security-service --watch",
     "start:people": "nest start people-service --watch",
     "start:property": "nest start property-service --watch",
     "start:financial": "nest start financial-service --watch",
@@ -30,7 +30,7 @@
     "start:payment": "nest start payment-gateway --watch",
     "start:integrations": "nest start integrations-service --watch",
     "build:gateway": "nest build api-gateway",
-    "build:auth": "nest build auth-service",
+    "build:auth": "nest build security-service",
     "build:people": "nest build people-service",
     "build:property": "nest build property-service",
     "build:financial": "nest build financial-service",
@@ -40,7 +40,8 @@
     "build:external": "nest build external-service",
     "build:payment": "nest build payment-gateway",
     "build:integrations": "nest build integrations-service",
-    "build:all": "npm run build:gateway && npm run build:auth && npm run build:people && npm run build:property && npm run build:financial && npm run build:operations && npm run build:resident && npm run build:governance && npm run build:external && npm run build:payment && npm run build:integrations"
+    "build:all": "npm run build:gateway && npm run build:auth && npm run build:people && npm run build:property && npm run build:financial && npm run build:operations && npm run build:resident && npm run build:governance && npm run build:external && npm run build:payment && npm run build:integrations",
+    "init:auth-data": "ts-node -r tsconfig-paths/register apps/security-service/src/scripts/init-data.ts"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^6.0.2",
