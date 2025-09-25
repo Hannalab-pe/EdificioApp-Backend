@@ -5,7 +5,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
 } from "typeorm";
 import { TipoContrato } from "./TipoContrato";
 import { Trabajador } from "./Trabajador";
@@ -14,8 +13,12 @@ import { HistorialContrato } from "./HistorialContrato";
 @Index("contrato_pkey", ["id"], { unique: true })
 @Entity("contrato", { schema: "people_management" })
 export class Contrato {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
   @Column("date", { name: "fecha_inicio" })
   fechaInicio: string;

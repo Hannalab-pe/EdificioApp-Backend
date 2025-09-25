@@ -1,13 +1,17 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
 @Index("historial_residencia_pkey", ["id"], { unique: true })
 @Entity("historial_residencia", { schema: "people_management" })
 export class HistorialResidencia {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
-  @Column("integer", { name: "usuario_id" })
-  usuarioId: number;
+  @Column("uuid", { name: "usuario_id" })
+  usuarioId: string;
 
   @Column("text", { name: "direccion" })
   direccion: string;

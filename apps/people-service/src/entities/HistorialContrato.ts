@@ -1,18 +1,15 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Contrato } from "./Contrato";
 
 @Index("historial_contrato_pkey", ["id"], { unique: true })
 @Entity("historial_contrato", { schema: "people_management" })
 export class HistorialContrato {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
   @Column("enum", {
     name: "accion",
@@ -29,8 +26,8 @@ export class HistorialContrato {
   @Column("jsonb", { name: "detalles", nullable: true })
   detalles: object | null;
 
-  @Column("integer", { name: "usuario_responsable_id", nullable: true })
-  usuarioResponsableId: number | null;
+  @Column("uuid", { name: "usuario_responsable_id", nullable: true })
+  usuarioResponsableId: string | null;
 
   @Column("timestamp with time zone", {
     name: "created_at",

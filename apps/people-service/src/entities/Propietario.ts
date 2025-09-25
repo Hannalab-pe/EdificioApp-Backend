@@ -1,21 +1,18 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Inmobiliaria } from "./Inmobiliaria";
 
 @Index("propietario_pkey", ["id"], { unique: true })
 @Entity("propietario", { schema: "people_management" })
 export class Propietario {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
-  @Column("integer", { name: "usuario_id" })
-  usuarioId: number;
+  @Column("uuid", { name: "usuario_id" })
+  usuarioId: string;
 
   @Column("date", { name: "fecha_registro" })
   fechaRegistro: string;

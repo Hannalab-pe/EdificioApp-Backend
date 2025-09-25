@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, OneToMany } from "typeorm";
 import { Contrato } from "./Contrato";
 import { EvaluacionTrabajador } from "./EvaluacionTrabajador";
 
@@ -12,11 +6,15 @@ import { EvaluacionTrabajador } from "./EvaluacionTrabajador";
 @Index("trabajador_pkey", ["id"], { unique: true })
 @Entity("trabajador", { schema: "people_management" })
 export class Trabajador {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
-  @Column("integer", { name: "usuario_id" })
-  usuarioId: number;
+  @Column("uuid", { name: "usuario_id" })
+  usuarioId: string;
 
   @Column("character varying", {
     name: "codigo_empleado",

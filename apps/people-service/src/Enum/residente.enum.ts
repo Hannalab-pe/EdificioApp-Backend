@@ -1,0 +1,15 @@
+
+export enum EstadoCivil {
+  SOLTERO = 'SOLTERO',
+  CASADO = 'CASADO',
+  DIVORCIADO = 'DIVORCIADO',
+  VIUDO = 'VIUDO',
+  CONVIVIENTE = 'CONVIVIENTE',
+}
+
+export enum TipoResidente {
+  PROPIETARIO = 'PROPIETARIO',
+  FAMILIAR = 'FAMILIAR',
+  INQUILINO = 'INQUILINO',
+  INVITADO = 'INVITADO',
+}

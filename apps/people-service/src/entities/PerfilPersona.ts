@@ -1,13 +1,17 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
 @Index("perfil_persona_pkey", ["id"], { unique: true })
 @Entity("perfil_persona", { schema: "people_management" })
 export class PerfilPersona {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
-  @Column("integer", { name: "usuario_id" })
-  usuarioId: number;
+  @Column("uuid", { name: "usuario_id" })
+  usuarioId: string;
 
   @Column("character varying", {
     name: "foto_url",

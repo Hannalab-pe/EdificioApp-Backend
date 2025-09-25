@@ -1,22 +1,22 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Trabajador } from "./Trabajador";
 
 @Index("evaluacion_trabajador_pkey", ["id"], { unique: true })
 @Index("uk_trabajador_periodo", ["periodo", "trabajadorId"], { unique: true })
 @Entity("evaluacion_trabajador", { schema: "people_management" })
 export class EvaluacionTrabajador {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
-  @Column("integer", { name: "trabajador_id", unique: true })
-  trabajadorId: number;
+  @Column("uuid", { name: "trabajador_id", unique: true })
+  trabajadorId: string;
+
+  @Column("uuid", { name: "evaluador_id" })
+  evaluadorId: string;
 
   @Column("character", { name: "periodo", unique: true, length: 7 })
   periodo: string;
@@ -43,9 +43,6 @@ export class EvaluacionTrabajador {
 
   @Column("text", { name: "comentarios", nullable: true })
   comentarios: string | null;
-
-  @Column("integer", { name: "evaluador_id" })
-  evaluadorId: number;
 
   @Column("date", { name: "fecha_evaluacion" })
   fechaEvaluacion: string;

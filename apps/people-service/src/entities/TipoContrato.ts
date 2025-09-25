@@ -1,18 +1,16 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, OneToMany } from "typeorm";
 import { Contrato } from "./Contrato";
 
 @Index("tipo_contrato_pkey", ["id"], { unique: true })
 @Index("tipo_contrato_nombre_key", ["nombre"], { unique: true })
 @Entity("tipo_contrato", { schema: "people_management" })
 export class TipoContrato {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
   @Column("character varying", { name: "nombre", unique: true, length: 100 })
   nombre: string;

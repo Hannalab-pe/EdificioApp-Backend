@@ -1,18 +1,16 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, OneToMany } from "typeorm";
 import { Propietario } from "./Propietario";
 
 @Index("inmobiliaria_pkey", ["id"], { unique: true })
 @Index("inmobiliaria_ruc_key", ["ruc"], { unique: true })
 @Entity("inmobiliaria", { schema: "people_management" })
 export class Inmobiliaria {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @Column("uuid", {
+    primary: true,
+    name: "id",
+    default: () => "uuid_generate_v4()",
+  })
+  id: string;
 
   @Column("character varying", { name: "razon_social", length: 200 })
   razonSocial: string;
