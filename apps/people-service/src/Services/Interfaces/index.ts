@@ -1,0 +1,12 @@
+export { IArrendatarioService } from './arrendatario/iarrendatario.service';
+export { IContactoEmergenciaService } from './contacto-emergencia/icontacto-emergencia.service';
+export { IContratoService } from './contrato/icontrato.service';
+export { IEvaluacionTrabajadorService } from './evaluacion-trabajador/ievaluacion-trabajador.service';
+export { IHistorialContratoService } from './historial-contraot/ihistorial-contraot.service';
+export { IHistorialResidenciaService } from './historial-residencia/ihistorial-residencia.service';
+export { IInmobiliariaService } from './inmobiliaria/iinmobiliaria.service';
+export { IPerfilPersonaService } from './perfil-persona/iperfil-persona.service';
+export { IPropietarioService } from './propietario/ipropietario.service';
+export { IResidenteService } from './residente/iresidente.service';
+export { ITipoContratoService } from './tipo-contrato/itipo-contrato.service';
+export { ITrabajadorService } from './trabajador/itrabajador.service';
