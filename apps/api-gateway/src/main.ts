@@ -9,9 +9,14 @@ async function bootstrap() {
 
   // configuracion global
   app.enableCors({
-    origin: process.env.NODE_ENV === 'production' ?
-      ['http://localhost:3000', 'http://localhost:4200'] :
-      '*',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? [
+            'http://localhost:3000',
+            'http://localhost:4200',
+            'https://security-service-369655188501.us-central1.run.app',
+          ]
+        : '*',
     credentials: true,
   });
 
