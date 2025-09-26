@@ -11,7 +11,9 @@ describe('GovernanceServiceController', () => {
       providers: [GovernanceServiceService],
     }).compile();
 
-    governanceServiceController = app.get<GovernanceServiceController>(GovernanceServiceController);
+    governanceServiceController = app.get<GovernanceServiceController>(
+      GovernanceServiceController,
+    );
   });
 
   describe('root', () => {

@@ -3,7 +3,9 @@ import { GovernanceServiceService } from './governance-service.service';
 
 @Controller()
 export class GovernanceServiceController {
-  constructor(private readonly governanceServiceService: GovernanceServiceService) {}
+  constructor(
+    private readonly governanceServiceService: GovernanceServiceService,
+  ) {}
 
   @Get()
   getHello(): string {

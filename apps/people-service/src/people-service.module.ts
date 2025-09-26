@@ -14,11 +14,32 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { TrabajadorSagaHandler } from './events/trabajador-saga.handler';
 
 @Module({
-  imports: [// Configuración global
-      ConfigModule.forRoot({
-        isGlobal: true,
-        envFilePath: '.env',
+  imports: [
+    // Configuración global
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    // Configuración de base de datos
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        logging: configService.get('NODE_ENV') === 'development',
+        autoLoadEntities: true,
       }),
+<<<<<<< HEAD
+      inject: [ConfigService],
+    }),
+    // Módulos de entidades y servicios
+    ServicesModule,
+=======
       // Configuración de base de datos
       TypeOrmModule.forRootAsync({
         imports: [ConfigModule],
@@ -68,6 +89,7 @@ import { TrabajadorSagaHandler } from './events/trabajador-saga.handler';
       }),
       // Módulos de entidades y servicios
       ServicesModule,
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
     ControllersModule,
     EntitiesModule,
   ],
@@ -79,5 +101,4 @@ import { TrabajadorSagaHandler } from './events/trabajador-saga.handler';
     TrabajadorSagaHandler,               // ← Escucha eventos 'creation.requested'
   ],
 })
-export class PeopleServiceModule { }
-
+export class PeopleServiceModule {}

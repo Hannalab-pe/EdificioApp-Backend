@@ -11,7 +11,9 @@ describe('PropertyServiceController', () => {
       providers: [PropertyServiceService],
     }).compile();
 
-    propertyServiceController = app.get<PropertyServiceController>(PropertyServiceController);
+    propertyServiceController = app.get<PropertyServiceController>(
+      PropertyServiceController,
+    );
   });
 
   describe('root', () => {

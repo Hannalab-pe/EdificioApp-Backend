@@ -10,7 +10,7 @@ export class ApiGatewayService {
     @Inject('SECURITY_SERVICE') private authService: ClientProxy,
     @Inject('PEOPLE_SERVICE') private peopleService: ClientProxy,
     @Inject('PROPERTY_SERVICE') private propertyService: ClientProxy,
-  ) { }
+  ) {}
 
   getInfo() {
     return {
@@ -27,7 +27,7 @@ export class ApiGatewayService {
         'governance-service',
         'external-service',
         'payment-gateway',
-        'integrations-service'
+        'integrations-service',
       ],
       timestamp: new Date().toISOString(),
     };
@@ -46,28 +46,30 @@ export class ApiGatewayService {
           const response = await firstValueFrom(
             service.client.send('health.check', {}).pipe(
               timeout(5000),
-              catchError(error => {
-                this.logger.error(`Health check failed for ${service.name}: ${error.message}`);
+              catchError((error) => {
+                this.logger.error(
+                  `Health check failed for ${service.name}: ${error.message}`,
+                );
                 throw error;
-              })
-            )
+              }),
+            ),
           );
           return { name: service.name, status: 'healthy', response };
         } catch (error) {
           return {
             name: service.name,
             status: 'unhealthy',
-            error: error.message
+            error: error.message,
           };
         }
-      })
+      }),
     );
 
     return {
       gateway: 'healthy',
       timestamp: new Date().toISOString(),
-      services: status.map(result =>
-        result.status === 'fulfilled' ? result.value : result.reason
+      services: status.map((result) =>
+        result.status === 'fulfilled' ? result.value : result.reason,
       ),
     };
   }

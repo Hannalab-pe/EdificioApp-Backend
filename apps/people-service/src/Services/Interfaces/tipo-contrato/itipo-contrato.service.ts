@@ -1,6 +1,6 @@
 import { CreateTipoContratoDto, UpdateTipoContratoDto } from "apps/people-service/src/Dtos";
+import { BaseResponseDto } from "apps/people-service/src/Dtos/baseResponse.dto";
 import { TipoContrato } from "apps/people-service/src/entities/TipoContrato";
-import { BaseResponseDto } from "apps/security-service/src/dto";
 
 export interface ITipoContratoService {
     create(data: CreateTipoContratoDto): Promise<BaseResponseDto<TipoContrato>>;

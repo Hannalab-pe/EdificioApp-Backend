@@ -3,7 +3,9 @@ import { ExternalServiceService } from './external-service.service';
 
 @Controller()
 export class ExternalServiceController {
-  constructor(private readonly externalServiceService: ExternalServiceService) {}
+  constructor(
+    private readonly externalServiceService: ExternalServiceService,
+  ) {}
 
   @Get()
   getHello(): string {

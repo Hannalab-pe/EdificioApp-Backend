@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuditoriaAcceso } from './AuditoriaAcceso';
-import { ConfiguracionSeguridad } from './ConfiguracionSeguridad';
+import { ConfiguracionSeguridad } from './configuracion-seguridad.entity';
 import { DocumentoIdentidad } from './DocumentoIdentidad';
 import { Permiso } from './Permiso';
 import { Rol } from './Rol';
@@ -27,4 +27,4 @@ import { Usuario } from './Usuario';
         // Exportar también los repositorios específicos si es necesario
     ],
 })
-export class EntitiesModule { }
+export class EntitiesModule {}

@@ -57,4 +57,4 @@ import { HealthModule } from './modules/health/health.module';
   controllers: [ApiGatewayController],
   providers: [ApiGatewayService],
 })
-export class ApiGatewayModule { }
+export class ApiGatewayModule {}

@@ -1,13 +1,18 @@
 import { Rol, NivelAcceso } from '../../../entities/Rol';
-import {
-  CreateRolDto,
-  UpdateRolDto,
-  RolResponseDto,
-  RolListResponseDto,
-} from '../../../dto';
 
-// Re-exportar los DTOs para compatibilidad
-export { CreateRolDto, UpdateRolDto, RolResponseDto, RolListResponseDto };
+export interface CreateRolDto {
+  nombre: string;
+  descripcion?: string;
+  nivelAcceso: NivelAcceso;
+  activo?: boolean;
+}
+
+export interface UpdateRolDto {
+  nombre?: string;
+  descripcion?: string;
+  nivelAcceso?: NivelAcceso;
+  activo?: boolean;
+}
 
 export interface RolQuery {
   page?: number;
@@ -18,12 +23,14 @@ export interface RolQuery {
 }
 
 export interface IRolService {
-  create(data: CreateRolDto): Promise<RolResponseDto>;
-  findAll(query?: RolQuery): Promise<RolListResponseDto>;
-  findOne(id: string): Promise<RolResponseDto>;
-  findByName(nombre: string): Promise<RolResponseDto>;
-  update(id: string, data: UpdateRolDto): Promise<RolResponseDto>;
+  create(data: CreateRolDto): Promise<Rol>;
+  findAll(
+    query?: RolQuery,
+  ): Promise<{ roles: Rol[]; total: number; page: number; totalPages: number }>;
+  findOne(id: string): Promise<Rol>;
+  findByName(nombre: string): Promise<Rol>;
+  update(id: string, data: UpdateRolDto): Promise<Rol>;
   remove(id: string): Promise<void>;
   softDelete(id: string): Promise<void>;
-  findByNivelAcceso(nivelAcceso: NivelAcceso): Promise<RolResponseDto[]>;
+  findByNivelAcceso(nivelAcceso: NivelAcceso): Promise<Rol[]>;
 }
