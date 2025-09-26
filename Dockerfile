@@ -26,7 +26,7 @@ FROM node:20-alpine AS production
 
 # Crear usuario no root
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nestjs -u 1001
+  adduser -S nestjs -u 1001
 
 # Establecer directorio de trabajo
 WORKDIR /app
