@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ServicesModule } from '../Services/services.module';
 import { ArrendatarioController } from './arrendatario/arrendatario.controller';
 import { ContactoEmergenciaController } from './contacto-emergencia/contacto-emergencia.controller';
 import { ContratoController } from './contrato/contrato.controller';
@@ -13,6 +14,7 @@ import { TipoContratoController } from './tipo-contrato/tipo-contrato.controller
 import { TrabajadorController } from './trabajador/trabajador.controller';
 
 @Module({
+    imports: [ServicesModule],
     controllers: [
         ArrendatarioController,
         ContactoEmergenciaController,
