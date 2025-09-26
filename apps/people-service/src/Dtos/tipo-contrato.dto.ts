@@ -1,85 +1,169 @@
-import { IsString, IsOptional, IsBoolean, IsInt, Min, Max } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsOptional, IsBoolean, IsNumber, IsNotEmpty, MaxLength, Min } from 'class-validator';
+import { TipoContrato } from '../entities/TipoContrato';
 
+// =============== CREATE DTO ===============
 export class CreateTipoContratoDto {
-  @ApiProperty({ description: 'Nombre del tipo de contrato', example: 'Contrato de Trabajo a Plazo Fijo' })
-  @IsString()
-  nombre: string;
+    @ApiProperty({
+        description: 'Nombre único del tipo de contrato',
+        example: 'Contrato Indefinido',
+        maxLength: 100
+    })
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(100)
+    nombre: string;
 
-  @ApiPropertyOptional({ description: 'Descripción detallada del tipo de contrato', example: 'Contrato para empleados temporales con duración específica' })
-  @IsOptional()
-  @IsString()
-  descripcion?: string;
+    @ApiPropertyOptional({
+        description: 'Descripción detallada del tipo de contrato',
+        example: 'Contrato de trabajo de duración indefinida con todas las prestaciones sociales'
+    })
+    @IsOptional()
+    @IsString()
+    descripcion?: string;
 
-  @ApiPropertyOptional({ description: 'Duración por defecto en meses', example: 12, minimum: 1, maximum: 120 })
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Max(120)
-  duracionDefaultMeses?: number;
+    @ApiPropertyOptional({
+        description: 'Duración por defecto en meses del contrato',
+        example: 12,
+        minimum: 1
+    })
+    @IsOptional()
+    @IsNumber()
+    @Min(1)
+    duracionDefaultMeses?: number;
 
-  @ApiPropertyOptional({ description: 'Indica si el contrato es renovable', example: true, default: true })
-  @IsOptional()
-  @IsBoolean()
-  renovable?: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el contrato es renovable automáticamente',
+        example: true,
+        default: true
+    })
+    @IsOptional()
+    @IsBoolean()
+    renovable?: boolean;
 
-  @ApiPropertyOptional({ description: 'Estado activo/inactivo', example: true, default: true })
-  @IsOptional()
-  @IsBoolean()
-  activo?: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el tipo de contrato está activo',
+        example: true,
+        default: true
+    })
+    @IsOptional()
+    @IsBoolean()
+    activo?: boolean;
 }
 
+// =============== UPDATE DTO ===============
 export class UpdateTipoContratoDto {
-  @ApiPropertyOptional({ description: 'Nombre del tipo de contrato', example: 'Contrato de Trabajo a Plazo Fijo' })
-  @IsOptional()
-  @IsString()
-  nombre?: string;
+    @ApiPropertyOptional({
+        description: 'Nombre único del tipo de contrato',
+        example: 'Contrato Indefinido',
+        maxLength: 100
+    })
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(100)
+    nombre?: string;
 
-  @ApiPropertyOptional({ description: 'Descripción detallada del tipo de contrato', example: 'Contrato para empleados temporales con duración específica' })
-  @IsOptional()
-  @IsString()
-  descripcion?: string;
+    @ApiPropertyOptional({
+        description: 'Descripción detallada del tipo de contrato',
+        example: 'Contrato de trabajo de duración indefinida con todas las prestaciones sociales'
+    })
+    @IsOptional()
+    @IsString()
+    descripcion?: string;
 
-  @ApiPropertyOptional({ description: 'Duración por defecto en meses', example: 12, minimum: 1, maximum: 120 })
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  @Max(120)
-  duracionDefaultMeses?: number;
+    @ApiPropertyOptional({
+        description: 'Duración por defecto en meses del contrato',
+        example: 12,
+        minimum: 1
+    })
+    @IsOptional()
+    @IsNumber()
+    @Min(1)
+    duracionDefaultMeses?: number;
 
-  @ApiPropertyOptional({ description: 'Indica si el contrato es renovable', example: true })
-  @IsOptional()
-  @IsBoolean()
-  renovable?: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el contrato es renovable automáticamente',
+        example: true
+    })
+    @IsOptional()
+    @IsBoolean()
+    renovable?: boolean;
 
-  @ApiPropertyOptional({ description: 'Estado activo/inactivo', example: true })
-  @IsOptional()
-  @IsBoolean()
-  activo?: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el tipo de contrato está activo',
+        example: true
+    })
+    @IsOptional()
+    @IsBoolean()
+    activo?: boolean;
 }
 
+// =============== RESPONSE DTO ===============
 export class TipoContratoResponseDto {
-  @ApiProperty({ description: 'ID único del tipo de contrato', example: '123e4567-e89b-12d3-a456-426614174000' })
-  id: string;
+    @ApiProperty({
+        description: 'ID único del tipo de contrato',
+        example: '123e4567-e89b-12d3-a456-426614174000'
+    })
+    id: string;
 
-  @ApiProperty({ description: 'Nombre del tipo de contrato', example: 'Contrato de Trabajo a Plazo Fijo' })
-  nombre: string;
+    @ApiProperty({
+        description: 'Nombre único del tipo de contrato',
+        example: 'Contrato Indefinido'
+    })
+    nombre: string;
 
-  @ApiPropertyOptional({ description: 'Descripción detallada del tipo de contrato', example: 'Contrato para empleados temporales con duración específica' })
-  descripcion?: string;
+    @ApiPropertyOptional({
+        description: 'Descripción detallada del tipo de contrato',
+        example: 'Contrato de trabajo de duración indefinida con todas las prestaciones sociales'
+    })
+    descripcion: string | null;
 
-  @ApiPropertyOptional({ description: 'Duración por defecto en meses', example: 12 })
-  duracionDefaultMeses?: number;
+    @ApiPropertyOptional({
+        description: 'Duración por defecto en meses del contrato',
+        example: 12
+    })
+    duracionDefaultMeses: number | null;
 
-  @ApiProperty({ description: 'Indica si el contrato es renovable', example: true })
-  renovable: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el contrato es renovable automáticamente',
+        example: true
+    })
+    renovable: boolean | null;
 
-  @ApiProperty({ description: 'Estado activo/inactivo', example: true })
-  activo: boolean;
+    @ApiPropertyOptional({
+        description: 'Indica si el tipo de contrato está activo',
+        example: true
+    })
+    activo: boolean | null;
 
-  @ApiProperty({ description: 'Fecha de creación' })
-  createdAt: Date;
+    @ApiPropertyOptional({
+        description: 'Fecha de creación del registro',
+        example: '2025-09-26T10:30:00.000Z'
+    })
+    createdAt: Date | null;
 
-  @ApiPropertyOptional({ description: 'Número total de contratos de este tipo', example: 5 })
-  totalContratos?: number;
+    @ApiPropertyOptional({
+        description: 'Fecha de última actualización',
+        example: '2025-09-26T15:45:00.000Z'
+    })
+    updatedAt: Date | null;
+
+    @ApiPropertyOptional({
+        description: 'Fecha de eliminación lógica (null si está activo)',
+        example: null
+    })
+    deletedAt: Date | null;
+
+    constructor(tipoContrato: TipoContrato) {
+        this.id = tipoContrato.id;
+        this.nombre = tipoContrato.nombre;
+        this.descripcion = tipoContrato.descripcion;
+        this.duracionDefaultMeses = tipoContrato.duracionDefaultMeses;
+        this.renovable = tipoContrato.renovable;
+        this.activo = tipoContrato.activo;
+        this.createdAt = tipoContrato.createdAt;
+        this.updatedAt = tipoContrato.updatedAt;
+        this.deletedAt = tipoContrato.deletedAt;
+    }
 }
