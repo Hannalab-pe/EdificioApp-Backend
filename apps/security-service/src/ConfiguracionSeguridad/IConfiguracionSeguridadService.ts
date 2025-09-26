@@ -1,6 +1,6 @@
+import { ConfiguracionSeguridad } from '../entities/configuracion-seguridad.entity';
 import { CreateConfiguracionSeguridadDto } from './Dtos/CreateConfiguracionSeguridadDto';
 import { UpdateConfiguracionSeguridadDto } from './Dtos/UpdateConfiguracionSeguridadDto';
-import { ConfiguracionSeguridad } from '../entities/configuracion-seguridad.entity';
 
 export interface IConfiguracionSeguridadService {
   create(
