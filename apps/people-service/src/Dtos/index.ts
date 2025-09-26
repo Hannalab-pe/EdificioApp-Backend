@@ -3,7 +3,6 @@ export {
   CreatePerfilPersonaDto,
   UpdatePerfilPersonaDto,
   PerfilPersonaResponseDto,
-  EstadoCivil,
 } from './perfil-persona.dto';
 
 // Arrendatario DTOs
@@ -25,7 +24,6 @@ export {
   CreateResidenteDto,
   UpdateResidenteDto,
   ResidenteResponseDto,
-  TipoResidente,
 } from './residente.dto';
 
 // Trabajador DTOs
@@ -40,7 +38,6 @@ export {
   CreateContratoDto,
   UpdateContratoDto,
   ContratoResponseDto,
-  EstadoContrato,
 } from './contrato.dto';
 
 // Tipo Contrato DTOs
@@ -69,7 +66,6 @@ export {
   CreateHistorialContratoDto,
   UpdateHistorialContratoDto,
   HistorialContratoResponseDto,
-  AccionHistorialContrato,
 } from './historial-contrato.dto';
 
 // Historial Residencia DTOs
