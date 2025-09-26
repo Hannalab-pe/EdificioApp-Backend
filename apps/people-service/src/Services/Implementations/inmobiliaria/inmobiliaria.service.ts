@@ -52,6 +52,7 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
       }
 
+<<<<<<< HEAD
       // 3. Crear la entidad con valores por defecto y timestamps automáticos
       const createData = {
         ...data,
@@ -61,6 +62,18 @@ export class InmobiliariaService implements IInmobiliariaService {
       };
 
       const newInmobiliaria = this.inmobiliariaRepository.create(createData);
+=======
+    async findAll(): Promise<BaseResponseDto<Inmobiliaria[]>> {
+        try {
+            const inmobiliarias = await this.inmobiliariaRepository.find({
+                where: { activa: true }, // Solo inmobiliarias activas
+                relations: ['propietarios'] // Incluir propietarios asociados
+            });
+
+            if (inmobiliarias.length === 0) {
+                return BaseResponseDto.error('No hay inmobiliarias registradas', HttpStatus.NOT_FOUND);
+            }
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
 
       // 4. Guardar en base de datos
       const savedInmobiliaria =
@@ -90,11 +103,38 @@ export class InmobiliariaService implements IInmobiliariaService {
             HttpStatus.BAD_REQUEST,
           );
         }
+<<<<<<< HEAD
         if (error.constraint?.includes('razon_social')) {
           return BaseResponseDto.error(
             'La razón social ya está registrada',
             HttpStatus.BAD_REQUEST,
           );
+=======
+    }
+
+    async findOne(id: string): Promise<BaseResponseDto<Inmobiliaria | null>> {
+        try {
+            const inmobiliaria = await this.inmobiliariaRepository.findOne({
+                where: { id, activa: true }, // Solo inmobiliarias activas
+                relations: ['propietarios'] // Incluir propietarios asociados
+            });
+
+            if (!inmobiliaria) {
+                return BaseResponseDto.error('Inmobiliaria no encontrada', HttpStatus.NOT_FOUND);
+            }
+
+            return BaseResponseDto.success<Inmobiliaria>(
+                inmobiliaria,
+                'Inmobiliaria obtenida exitosamente',
+                HttpStatus.OK
+            );
+        } catch (error) {
+            console.error('Error al obtener inmobiliaria:', error);
+            return BaseResponseDto.error(
+                'Error interno al obtener la inmobiliaria',
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
         }
         return BaseResponseDto.error(
           'Violación de restricción única',
@@ -111,6 +151,7 @@ export class InmobiliariaService implements IInmobiliariaService {
     }
   }
 
+<<<<<<< HEAD
   /**
    * Obtiene todas las inmobiliarias activas
    *
@@ -127,6 +168,14 @@ export class InmobiliariaService implements IInmobiliariaService {
         where: { activa: true }, // Solo inmobiliarias activas
         relations: ['propietarios'], // Incluir propietarios asociados
       });
+=======
+    async update(id: string, data: UpdateInmobiliariaDto): Promise<BaseResponseDto<Inmobiliaria | null>> {
+        try {
+            // 1. Verificar que la inmobiliaria existe y está activa
+            const inmobiliaria = await this.inmobiliariaRepository.findOne({
+                where: { id, activa: true } // Solo inmobiliarias activas
+            });
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
 
       if (inmobiliarias.length === 0) {
         return BaseResponseDto.error(
@@ -232,6 +281,7 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
       }
 
+<<<<<<< HEAD
       // 3. Validar si la razón social ya existe en otra inmobiliaria (si se está cambiando)
       if (data.razonSocial && data.razonSocial !== inmobiliaria.razonSocial) {
         const existingByRazonSocial = await this.inmobiliariaRepository.findOne(
@@ -244,6 +294,41 @@ export class InmobiliariaService implements IInmobiliariaService {
             'Ya existe una inmobiliaria con esa razón social',
             HttpStatus.BAD_REQUEST,
           );
+=======
+    async remove(id: string): Promise<BaseResponseDto<null>> {
+        try {
+            const inmobiliaria = await this.inmobiliariaRepository.findOne({
+                where: { id, activa: true },
+                relations: ['propietarios']
+            });
+
+            if (!inmobiliaria) {
+                return BaseResponseDto.error('Inmobiliaria no encontrada', HttpStatus.NOT_FOUND);
+            }
+
+            // Verificar si tiene propietarios asociados activos
+            const propietariosActivos = inmobiliaria.propietarios?.filter(prop => prop.activo) || [];
+            if (propietariosActivos.length > 0) {
+                return BaseResponseDto.error(
+                    `No se puede eliminar la inmobiliaria porque tiene ${propietariosActivos.length} propietario(s) asociado(s)`,
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+
+            // Eliminación lógica: marcar como inactiva
+            inmobiliaria.activa = false;
+            inmobiliaria.updatedAt = new Date();
+
+            await this.inmobiliariaRepository.save(inmobiliaria);
+
+            return BaseResponseDto.success<null>(
+                null,
+                'Inmobiliaria desactivada exitosamente',
+                HttpStatus.OK
+            );
+        } catch (error) {
+            return BaseResponseDto.error('Error al desactivar la inmobiliaria', HttpStatus.INTERNAL_SERVER_ERROR);
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
         }
       }
 
@@ -287,6 +372,7 @@ export class InmobiliariaService implements IInmobiliariaService {
     }
   }
 
+<<<<<<< HEAD
   /**
    * Desactiva una inmobiliaria (eliminación lógica)
    *
@@ -306,6 +392,13 @@ export class InmobiliariaService implements IInmobiliariaService {
         where: { id, activa: true },
         relations: ['propietarios'],
       });
+=======
+    async reactivate(id: string): Promise<BaseResponseDto<Inmobiliaria>> {
+        try {
+            const inmobiliaria = await this.inmobiliariaRepository.findOne({
+                where: { id, activa: false }
+            });
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
 
       if (!inmobiliaria) {
         return BaseResponseDto.error(
@@ -314,6 +407,7 @@ export class InmobiliariaService implements IInmobiliariaService {
         );
       }
 
+<<<<<<< HEAD
       // 2. Verificar si tiene propietarios asociados activos (validar dependencias)
       const propietariosActivos =
         inmobiliaria.propietarios?.filter((prop) => prop.activo) || [];
@@ -341,6 +435,28 @@ export class InmobiliariaService implements IInmobiliariaService {
         'Error interno al desactivar la inmobiliaria',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
+=======
+            // Reactivar inmobiliaria
+            inmobiliaria.activa = true;
+            inmobiliaria.updatedAt = new Date();
+
+            const reactivatedInmobiliaria = await this.inmobiliariaRepository.save(inmobiliaria);
+
+            // Obtener la inmobiliaria reactivada con relaciones
+            const fullReactivatedInmobiliaria = await this.inmobiliariaRepository.findOne({
+                where: { id },
+                relations: ['propietarios']
+            });
+
+            return BaseResponseDto.success<Inmobiliaria>(
+                fullReactivatedInmobiliaria!,
+                'Inmobiliaria reactivada exitosamente',
+                HttpStatus.OK
+            );
+        } catch (error) {
+            return BaseResponseDto.error('Error al reactivar la inmobiliaria', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+>>>>>>> 872c80c6d7bf7361f9d25592c6a22381544844d2
     }
   }
 
