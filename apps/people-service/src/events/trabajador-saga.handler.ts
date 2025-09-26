@@ -48,7 +48,7 @@ export class TrabajadorSagaHandler {
     private readonly trabajadorService: ITrabajadorService,
     // Conexión RabbitMQ para enviar respuestas de vuelta
     private readonly amqpConnection: AmqpConnection,
-  ) {}
+  ) { }
 
   // ============================================================================
   // MÉTODO PRINCIPAL: ESCUCHAR EVENTOS DE CREACIÓN DE TRABAJADOR

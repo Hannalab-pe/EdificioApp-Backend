@@ -6,7 +6,6 @@ import {
   ContactoEmergenciaService,
   ContratoService,
   EvaluacionTrabajadorService,
-  HistorialContraotService,
   HistorialResidenciaService,
   InmobiliariaService,
   PerfilPersonaService,
@@ -15,6 +14,8 @@ import {
   TipoContratoService,
   TrabajadorService,
 } from './Implementations';
+import { HistorialContratoService } from './Implementations/historial-contrato/historial-contrato.service';
+import { SecurityServiceClient } from './clients/security-service.client';
 
 @Module({
   imports: [EntitiesModule],
@@ -38,7 +39,7 @@ import {
     },
     {
       provide: 'IHistorialContratoService',
-      useClass: HistorialContraotService,
+      useClass: HistorialContratoService,
     },
     {
       provide: 'IHistorialResidenciaService',
@@ -74,7 +75,7 @@ import {
     ContactoEmergenciaService,
     ContratoService,
     EvaluacionTrabajadorService,
-    HistorialContraotService,
+    HistorialContratoService,
     HistorialResidenciaService,
     InmobiliariaService,
     PerfilPersonaService,
@@ -82,6 +83,9 @@ import {
     ResidenteService,
     TipoContratoService,
     TrabajadorService,
+
+    // Cliente para comunicación con security-service
+    SecurityServiceClient,
   ],
   exports: [
     // String tokens para interfaces
@@ -103,7 +107,7 @@ import {
     ContactoEmergenciaService,
     ContratoService,
     EvaluacionTrabajadorService,
-    HistorialContraotService,
+    HistorialContratoService,
     HistorialResidenciaService,
     InmobiliariaService,
     PerfilPersonaService,
@@ -111,6 +115,9 @@ import {
     ResidenteService,
     TipoContratoService,
     TrabajadorService,
+
+    // Cliente para comunicación con security-service
+    SecurityServiceClient,
   ],
 })
 export class ServicesModule {}

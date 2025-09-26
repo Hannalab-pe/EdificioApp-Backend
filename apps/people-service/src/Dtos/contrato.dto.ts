@@ -70,6 +70,14 @@ export class CreateContratoDto {
   })
   @IsUUID()
   trabajadorId: string;
+
+  @ApiPropertyOptional({
+    description: 'ID del usuario responsable de la creación del contrato',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  @IsOptional()
+  @IsUUID()
+  usuarioResponsableId?: string;
 }
 
 export class UpdateContratoDto {

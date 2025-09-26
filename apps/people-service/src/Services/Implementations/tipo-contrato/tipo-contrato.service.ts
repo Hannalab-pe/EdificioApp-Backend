@@ -1,10 +1,10 @@
-import { Injectable, ConflictException, NotFoundException, HttpStatus, BadRequestException } from '@nestjs/common';
+import { Injectable, HttpStatus, BadRequestException } from '@nestjs/common';
 import { ITipoContratoService } from '../../Interfaces';
 import { CreateTipoContratoDto, UpdateTipoContratoDto } from 'apps/people-service/src/Dtos';
 import { TipoContrato } from 'apps/people-service/src/entities/TipoContrato';
-import { BaseResponseDto } from 'apps/security-service/src/dto';
 import { Repository, IsNull } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { BaseResponseDto } from 'apps/people-service/src/Dtos/baseResponse.dto';
 
 @Injectable()
 export class TipoContratoService implements ITipoContratoService {
@@ -23,14 +23,12 @@ export class TipoContratoService implements ITipoContratoService {
             });
 
             if (existingTipoContrato) {
-                if (existingTipoContrato.deletedAt) {
+                if (existingTipoContrato.createdAt) {
                     // Si está eliminado lógicamente, lo restauramos y actualizamos
-                    existingTipoContrato.deletedAt = null;
                     existingTipoContrato.descripcion = data.descripcion || existingTipoContrato.descripcion;
                     existingTipoContrato.duracionDefaultMeses = data.duracionDefaultMeses ?? existingTipoContrato.duracionDefaultMeses;
                     existingTipoContrato.renovable = data.renovable ?? existingTipoContrato.renovable;
                     existingTipoContrato.activo = data.activo ?? existingTipoContrato.activo;
-                    existingTipoContrato.updatedAt = new Date();
 
                     const restored = await this.tipoContratoRepository.save(existingTipoContrato);
                     return BaseResponseDto.success(
@@ -55,7 +53,6 @@ export class TipoContratoService implements ITipoContratoService {
                 renovable: data.renovable ?? true,
                 activo: data.activo ?? true,
                 createdAt: new Date(),
-                updatedAt: new Date()
             });
 
             const tipoContratoGuardado = await this.tipoContratoRepository.save(nuevoTipoContrato);
@@ -81,9 +78,6 @@ export class TipoContratoService implements ITipoContratoService {
             const { page = 1, limit = 10, nombre, activo, renovable } = query || {};
 
             const queryBuilder = this.tipoContratoRepository.createQueryBuilder('tipo_contrato');
-
-            // Solo tipos de contrato NO eliminados
-            queryBuilder.andWhere('tipo_contrato.deletedAt IS NULL');
 
             // Filtros opcionales
             if (nombre) {
@@ -143,7 +137,6 @@ export class TipoContratoService implements ITipoContratoService {
             const tipoContrato = await this.tipoContratoRepository.findOne({
                 where: {
                     id,
-                    deletedAt: IsNull() // Solo NO eliminados
                 }
             });
 
@@ -182,7 +175,6 @@ export class TipoContratoService implements ITipoContratoService {
             const tipoContrato = await this.tipoContratoRepository.findOne({
                 where: {
                     id,
-                    deletedAt: IsNull()
                 }
             });
 
@@ -198,7 +190,6 @@ export class TipoContratoService implements ITipoContratoService {
                 const existingTipoContrato = await this.tipoContratoRepository.findOne({
                     where: {
                         nombre: data.nombre,
-                        deletedAt: IsNull()
                     }
                 });
 
@@ -217,7 +208,6 @@ export class TipoContratoService implements ITipoContratoService {
             if (data.renovable !== undefined) tipoContrato.renovable = data.renovable;
             if (data.activo !== undefined) tipoContrato.activo = data.activo;
 
-            tipoContrato.updatedAt = new Date();
 
             const tipoContratoActualizado = await this.tipoContratoRepository.save(tipoContrato);
 
@@ -249,7 +239,6 @@ export class TipoContratoService implements ITipoContratoService {
             const tipoContrato = await this.tipoContratoRepository.findOne({
                 where: {
                     id,
-                    deletedAt: IsNull()
                 }
             });
 
@@ -279,9 +268,7 @@ export class TipoContratoService implements ITipoContratoService {
             */
 
             // Eliminado lógico
-            tipoContrato.deletedAt = new Date();
             tipoContrato.activo = false; // También lo marcamos como inactivo
-            tipoContrato.updatedAt = new Date();
 
             await this.tipoContratoRepository.save(tipoContrato);
 
@@ -313,7 +300,6 @@ export class TipoContratoService implements ITipoContratoService {
             const tipoContrato = await this.tipoContratoRepository.findOne({
                 where: {
                     nombre,
-                    deletedAt: IsNull()
                 }
             });
 
@@ -345,7 +331,6 @@ export class TipoContratoService implements ITipoContratoService {
             const tiposContratoActivos = await this.tipoContratoRepository.find({
                 where: {
                     activo: true,
-                    deletedAt: IsNull()
                 },
                 order: { nombre: 'ASC' }
             });

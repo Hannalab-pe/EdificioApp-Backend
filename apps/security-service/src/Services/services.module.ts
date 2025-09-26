@@ -1,6 +1,9 @@
 // services/services.module.ts
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EntitiesModule } from '../entities/entities.module';
+// =========== IMPORTAR RABBITMQ PARA ACCESO EN SERVICIOS ===========
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import {
   AuditoriaAccesoService,
   ConfiguracionSeguridadService,
@@ -11,10 +14,32 @@ import {
   SesionUsuarioService,
   UsuarioService,
 } from './Implementations';
+// =========== IMPORTAR HANDLERS DE EVENTOS ===========
+import {
+  TrabajadorCreationCompletedHandler,
+  TrabajadorCreationFailedHandler
+} from '../events/trabajador-response.handlers';
 
 @Module({
   imports: [
     EntitiesModule,
+    // =========== CONFIGURAR RABBITMQ EN SERVICES MODULE ===========
+    // Configuración específica para que UsuarioService tenga acceso
+    RabbitMQModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        exchanges: [
+          {
+            name: 'saga.trabajador',
+            type: 'topic',
+            options: { durable: true }
+          }
+        ],
+        uri: configService.get('RABBITMQ_URL') || 'amqp://localhost:5672',
+        connectionInitOptions: { wait: false },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     // Servicios del security-service usando string tokens para interfaces
@@ -60,6 +85,10 @@ import {
     RolPermisoService,
     SesionUsuarioService,
     UsuarioService,
+
+    // =========== HANDLERS DE EVENTOS RABBITMQ ===========
+    TrabajadorCreationCompletedHandler,
+    TrabajadorCreationFailedHandler,
   ],
   exports: [
     // String tokens para interfaces
@@ -83,4 +112,4 @@ import {
     UsuarioService,
   ],
 })
-export class ServicesModule {}
+export class ServicesModule { }

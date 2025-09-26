@@ -268,4 +268,16 @@ export class EvaluacionTrabajadorResponseDto {
     example: 4.5,
   })
   promedioCalificaciones?: number;
+
+  @ApiPropertyOptional({ description: 'Información del evaluador' })
+  evaluador?: {
+    id: string;
+    nombre: string;
+    apellidos: string;
+    email: string;
+  };
+
+  constructor(data: Partial<EvaluacionTrabajadorResponseDto>) {
+    Object.assign(this, data);
+  }
 }

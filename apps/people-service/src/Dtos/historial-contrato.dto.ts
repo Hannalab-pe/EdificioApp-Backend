@@ -146,4 +146,29 @@ export class HistorialContratoResponseDto {
     fechaFin?: string;
     estado: string;
   };
+
+  @ApiPropertyOptional({ description: 'Información del usuario responsable' })
+  usuarioResponsable?: UsuarioBasicoDto;
+
+  constructor(data: Partial<HistorialContratoResponseDto>) {
+    Object.assign(this, data);
+  }
+}
+
+export class UsuarioBasicoDto {
+  @ApiProperty({ description: 'ID del usuario' })
+  id: string;
+
+  @ApiProperty({ description: 'Nombre del usuario' })
+  nombre: string;
+
+  @ApiProperty({ description: 'Apellidos del usuario' })
+  apellidos: string;
+
+  @ApiProperty({ description: 'Email del usuario' })
+  email: string;
+
+  constructor(data: Partial<UsuarioBasicoDto>) {
+    Object.assign(this, data);
+  }
 }

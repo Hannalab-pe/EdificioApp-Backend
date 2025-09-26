@@ -4,7 +4,7 @@ import { TipoContrato } from "apps/people-service/src/entities/TipoContrato";
 
 export interface ITipoContratoService {
     create(data: CreateTipoContratoDto): Promise<BaseResponseDto<TipoContrato>>;
-    findAll(): Promise<BaseResponseDto<TipoContrato>>;
+    findAll(query?: any): Promise<BaseResponseDto<TipoContrato>>;
     findOne(id: string): Promise<BaseResponseDto<TipoContrato>>;
     update(id: string, data: UpdateTipoContratoDto): Promise<BaseResponseDto<TipoContrato>>;
     remove(id: string): Promise<BaseResponseDto<void>>;

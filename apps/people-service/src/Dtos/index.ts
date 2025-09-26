@@ -67,6 +67,7 @@ export {
   CreateHistorialContratoDto,
   UpdateHistorialContratoDto,
   HistorialContratoResponseDto,
+  UsuarioBasicoDto,
 } from './historial-contrato.dto';
 
 // Historial Residencia DTOs

@@ -204,4 +204,17 @@ export class PerfilPersonaResponseDto {
 
   @ApiProperty({ description: 'Fecha de última actualización' })
   updatedAt: Date;
+
+  @ApiPropertyOptional({ description: 'Información del usuario asociado' })
+  usuario?: {
+    id: string;
+    nombre: string;
+    apellidos: string;
+    email: string;
+    telefono?: string;
+  };
+
+  constructor(data: Partial<PerfilPersonaResponseDto>) {
+    Object.assign(this, data);
+  }
 }

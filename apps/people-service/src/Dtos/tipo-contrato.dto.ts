@@ -143,18 +143,6 @@ export class TipoContratoResponseDto {
     })
     createdAt: Date | null;
 
-    @ApiPropertyOptional({
-        description: 'Fecha de última actualización',
-        example: '2025-09-26T15:45:00.000Z'
-    })
-    updatedAt: Date | null;
-
-    @ApiPropertyOptional({
-        description: 'Fecha de eliminación lógica (null si está activo)',
-        example: null
-    })
-    deletedAt: Date | null;
-
     constructor(tipoContrato: TipoContrato) {
         this.id = tipoContrato.id;
         this.nombre = tipoContrato.nombre;
@@ -163,7 +151,5 @@ export class TipoContratoResponseDto {
         this.renovable = tipoContrato.renovable;
         this.activo = tipoContrato.activo;
         this.createdAt = tipoContrato.createdAt;
-        this.updatedAt = tipoContrato.updatedAt;
-        this.deletedAt = tipoContrato.deletedAt;
     }
 }
