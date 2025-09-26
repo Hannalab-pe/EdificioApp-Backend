@@ -38,6 +38,19 @@ export class TipoContrato {
   })
   createdAt: Date | null;
 
+  @Column("timestamp with time zone", {
+    name: "updated_at",
+    nullable: true,
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  updatedAt: Date | null;
+
+  @Column("timestamp with time zone", {
+    name: "deleted_at",
+    nullable: true,
+  })
+  deletedAt: Date | null;
+
   @OneToMany(() => Contrato, (contrato) => contrato.tipoContrato)
   contratoes: Contrato[];
 }

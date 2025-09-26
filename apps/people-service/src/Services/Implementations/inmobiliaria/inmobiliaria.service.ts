@@ -4,7 +4,7 @@ import { BaseResponseDto } from 'apps/people-service/src/Dtos/baseResponse.dto';
 import { Inmobiliaria } from 'apps/people-service/src/entities/Inmobiliaria';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateInmobiliariaDto, UpdateInmobiliariaDto } from 'apps/people-service/src/Dtos';
+import { CreateInmobiliariaDto, UpdateInmobiliariaDto } from 'apps/people-service/src/Dtos/inmobiliaria.dto';
 
 @Injectable()
 export class InmobiliariaService implements IInmobiliariaService {
