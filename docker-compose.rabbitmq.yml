@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # =========== SERVICIO RABBITMQ ===========
+  # RabbitMQ con Management UI habilitado
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: edificio-rabbitmq
+    restart: unless-stopped
+
+    # =========== PUERTOS ===========
+    ports:
+      - "5672:5672"     # Puerto AMQP (para conexiones de aplicaciones)
+      - "15672:15672"   # Puerto Management UI (interfaz web)
+      - "25672:25672"   # Puerto para clustering (no necesario ahora)
+
+    # =========== VARIABLES DE ENTORNO ===========
+    environment:
+      # Credenciales por defecto
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+      # Configuraciones adicionales
+      RABBITMQ_DEFAULT_VHOST: /
+      RABBITMQ_ERLANG_COOKIE: unique-erlang-cookie
+
+      # Habilitar plugins
+      RABBITMQ_ENABLED_PLUGINS_FILE: /etc/rabbitmq/enabled_plugins
+
+    # =========== VOLÚMENES PARA PERSISTENCIA ===========
+    volumes:
+      # Datos persistentes (queues, exchanges, etc.)
+      - rabbitmq_data:/var/lib/rabbitmq
+
+      # Logs persistentes
+      - rabbitmq_logs:/var/log/rabbitmq
+
+      # Configuración personalizada (opcional)
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+
+    # =========== CONFIGURACIÓN DE RED ===========
+    networks:
+      - edificio-network
+
+    # =========== HEALTHCHECK ===========
+    # Verifica que RabbitMQ esté funcionando correctamente
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+# =========== VOLÚMENES NOMBRADOS ===========
+# Para persistir datos entre reinicios de contenedores
+volumes:
+  rabbitmq_data:
+    driver: local
+  rabbitmq_logs:
+    driver: local
+
+# =========== REDES ===========
+# Red personalizada para comunicación entre contenedores
+networks:
+  edificio-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

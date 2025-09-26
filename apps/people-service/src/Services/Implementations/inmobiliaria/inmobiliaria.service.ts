@@ -92,16 +92,6 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
     }
 
-    /**
-     * Obtiene todas las inmobiliarias activas
-     *
-     * Características:
-     * - Solo retorna inmobiliarias activas (activa: true)
-     * - Incluye relaciones con propietarios
-     * - Maneja el caso cuando no hay registros
-     *
-     * @returns Promise<BaseResponseDto<Inmobiliaria[]>> - Lista de inmobiliarias activas
-     */
     async findAll(): Promise<BaseResponseDto<Inmobiliaria[]>> {
         try {
             const inmobiliarias = await this.inmobiliariaRepository.find({
@@ -109,7 +99,7 @@ export class InmobiliariaService implements IInmobiliariaService {
                 relations: ['propietarios'] // Incluir propietarios asociados
             });
 
-            if(inmobiliarias.length === 0) {
+            if (inmobiliarias.length === 0) {
                 return BaseResponseDto.error('No hay inmobiliarias registradas', HttpStatus.NOT_FOUND);
             }
 
@@ -127,17 +117,6 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
     }
 
-    /**
-     * Busca una inmobiliaria específica por ID
-     *
-     * Características:
-     * - Solo busca inmobiliarias activas
-     * - Incluye relaciones con propietarios
-     * - Valida UUID del ID
-     *
-     * @param id - UUID de la inmobiliaria a buscar
-     * @returns Promise<BaseResponseDto<Inmobiliaria | null>> - Inmobiliaria encontrada o null
-     */
     async findOne(id: string): Promise<BaseResponseDto<Inmobiliaria | null>> {
         try {
             const inmobiliaria = await this.inmobiliariaRepository.findOne({
@@ -163,20 +142,6 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
     }
 
-    /**
-     * Actualiza una inmobiliaria existente
-     *
-     * Pasos del proceso:
-     * 1. Verificar que la inmobiliaria existe y está activa
-     * 2. Validar duplicados por RUC (si se cambia)
-     * 3. Validar duplicados por razón social (si se cambia)
-     * 4. Aplicar cambios con timestamp de actualización
-     * 5. Retornar entidad actualizada con relaciones
-     *
-     * @param id - UUID de la inmobiliaria a actualizar
-     * @param data - DTO con los datos a actualizar
-     * @returns Promise<BaseResponseDto<Inmobiliaria | null>> - Inmobiliaria actualizada
-     */
     async update(id: string, data: UpdateInmobiliariaDto): Promise<BaseResponseDto<Inmobiliaria | null>> {
         try {
             // 1. Verificar que la inmobiliaria existe y está activa
@@ -242,19 +207,6 @@ export class InmobiliariaService implements IInmobiliariaService {
         }
     }
 
-    /**
-     * Desactiva una inmobiliaria (eliminación lógica)
-     *
-     * Características de la eliminación lógica:
-     * - No elimina físicamente el registro de la base de datos
-     * - Marca el campo 'activa' como false
-     * - Verifica dependencias (propietarios activos) antes de desactivar
-     * - Actualiza timestamp de modificación
-     * - Preserva integridad referencial
-     *
-     * @param id - UUID de la inmobiliaria a desactivar
-     * @returns Promise<BaseResponseDto<null>> - Confirmación de desactivación
-     */
     async remove(id: string): Promise<BaseResponseDto<null>> {
         try {
             const inmobiliaria = await this.inmobiliariaRepository.findOne({
@@ -266,7 +218,7 @@ export class InmobiliariaService implements IInmobiliariaService {
                 return BaseResponseDto.error('Inmobiliaria no encontrada', HttpStatus.NOT_FOUND);
             }
 
-            // 2. Verificar si tiene propietarios asociados activos (validar dependencias)
+            // Verificar si tiene propietarios asociados activos
             const propietariosActivos = inmobiliaria.propietarios?.filter(prop => prop.activo) || [];
             if (propietariosActivos.length > 0) {
                 return BaseResponseDto.error(
@@ -275,9 +227,9 @@ export class InmobiliariaService implements IInmobiliariaService {
                 );
             }
 
-            // 3. Aplicar eliminación lógica: marcar como inactiva
-            inmobiliaria.activa = false; // Cambiar estado a inactivo
-            inmobiliaria.updatedAt = new Date(); // Actualizar timestamp
+            // Eliminación lógica: marcar como inactiva
+            inmobiliaria.activa = false;
+            inmobiliaria.updatedAt = new Date();
 
             await this.inmobiliariaRepository.save(inmobiliaria);
 
@@ -287,52 +239,30 @@ export class InmobiliariaService implements IInmobiliariaService {
                 HttpStatus.OK
             );
         } catch (error) {
-            console.error('Error al desactivar inmobiliaria:', error);
-            return BaseResponseDto.error(
-                'Error interno al desactivar la inmobiliaria',
-                HttpStatus.INTERNAL_SERVER_ERROR
-            );
+            return BaseResponseDto.error('Error al desactivar la inmobiliaria', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /**
-     * Reactiva una inmobiliaria previamente desactivada
-     *
-     * Propósito:
-     * - Permite recuperar inmobiliarias que fueron desactivadas por error
-     * - Útil para casos de reactivación de contratos o relaciones comerciales
-     * - Mantiene historial completo sin perder información
-     *
-     * Proceso:
-     * 1. Buscar inmobiliaria inactiva por ID
-     * 2. Cambiar estado a activa
-     * 3. Actualizar timestamp
-     * 4. Retornar entidad con relaciones
-     *
-     * @param id - UUID de la inmobiliaria a reactivar
-     * @returns Promise<BaseResponseDto<Inmobiliaria>> - Inmobiliaria reactivada
-     */
     async reactivate(id: string): Promise<BaseResponseDto<Inmobiliaria>> {
         try {
-            // 1. Buscar inmobiliaria inactiva
             const inmobiliaria = await this.inmobiliariaRepository.findOne({
-                where: { id, activa: false } // Solo inmobiliarias inactivas
+                where: { id, activa: false }
             });
 
             if (!inmobiliaria) {
                 return BaseResponseDto.error('Inmobiliaria no encontrada o ya está activa', HttpStatus.NOT_FOUND);
             }
 
-            // 2. Reactivar inmobiliaria
-            inmobiliaria.activa = true; // Cambiar estado a activo
-            inmobiliaria.updatedAt = new Date(); // Actualizar timestamp
+            // Reactivar inmobiliaria
+            inmobiliaria.activa = true;
+            inmobiliaria.updatedAt = new Date();
 
-            await this.inmobiliariaRepository.save(inmobiliaria);
+            const reactivatedInmobiliaria = await this.inmobiliariaRepository.save(inmobiliaria);
 
-            // 3. Obtener la inmobiliaria reactivada con relaciones completas
+            // Obtener la inmobiliaria reactivada con relaciones
             const fullReactivatedInmobiliaria = await this.inmobiliariaRepository.findOne({
                 where: { id },
-                relations: ['propietarios'] // Incluir propietarios para respuesta completa
+                relations: ['propietarios']
             });
 
             return BaseResponseDto.success<Inmobiliaria>(
@@ -341,11 +271,7 @@ export class InmobiliariaService implements IInmobiliariaService {
                 HttpStatus.OK
             );
         } catch (error) {
-            console.error('Error al reactivar inmobiliaria:', error);
-            return BaseResponseDto.error(
-                'Error interno al reactivar la inmobiliaria',
-                HttpStatus.INTERNAL_SERVER_ERROR
-            );
+            return BaseResponseDto.error('Error al reactivar la inmobiliaria', HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

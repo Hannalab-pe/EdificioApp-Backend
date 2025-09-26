@@ -59,6 +59,20 @@ export class Usuario {
   })
   updatedAt: Date | null;
 
+  // =========== NUEVOS CAMPOS PARA SAGA PATTERN ===========
+  // Estado del trabajador asociado para tracking del saga
+  @Column({
+    type: "enum",
+    enum: ["none", "pending", "created", "failed"],
+    default: "none",
+    name: "estado_trabajador"
+  })
+  estadoTrabajador: string | null;
+
+  // Referencia al trabajador creado en people-service
+  @Column("uuid", { name: "trabajador_id", nullable: true })
+  trabajadorId: string | null;
+
   @ManyToOne(() => DocumentoIdentidad)
   @JoinColumn({ name: "documento_identidad_id" })
   documentoIdentidad: DocumentoIdentidad;

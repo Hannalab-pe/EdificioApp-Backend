@@ -7,6 +7,7 @@ import { Permiso } from './Permiso';
 import { Rol } from './Rol';
 import { RolPermiso } from './RolPermiso';
 import { SesionUsuario } from './SesionUsuario';
+import { SolicitudTrabajador } from './SolicitudTrabajador';
 import { Usuario } from './Usuario';
 
 @Module({
@@ -18,6 +19,7 @@ import { Usuario } from './Usuario';
         Rol,
         RolPermiso,
         SesionUsuario,
+        SolicitudTrabajador,
         Usuario,
     ])],
     exports: [
