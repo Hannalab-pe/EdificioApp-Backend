@@ -5,6 +5,9 @@ import { SecurityServiceController } from './security-service.controller';
 import { SecurityServiceService } from './security-service.service';
 import { EntitiesModule } from './entities/entities.module';
 import { ServicesModule } from './Services/services.module';
+import { UsuarioController } from './controllers/usuario/usuario.controller';
+import { RolController } from './controllers/rol/rol.controller';
+import { DocumentoIdentidadController } from './controllers/documento-identidad/documento-identidad.controller';
 
 @Module({
   imports: [
@@ -23,9 +26,10 @@ import { ServicesModule } from './Services/services.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get('NODE_ENV') === 'development',
+        entities: [__dirname + '/entities/*.{ts,js}'],
+        synchronize: false, // Desactivar para evitar conflictos con esquemas existentes
         logging: configService.get('NODE_ENV') === 'development',
+        autoLoadEntities: true,
       }),
       inject: [ConfigService],
     }),
@@ -33,7 +37,12 @@ import { ServicesModule } from './Services/services.module';
     EntitiesModule,
     ServicesModule,
   ],
-  controllers: [SecurityServiceController],
+  controllers: [
+    SecurityServiceController,
+    UsuarioController,
+    RolController,
+    DocumentoIdentidadController,
+  ],
   providers: [SecurityServiceService],
 })
-export class SecurityServiceModule { }
+export class SecurityServiceModule {}

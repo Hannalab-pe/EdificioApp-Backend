@@ -6,11 +6,11 @@ import { Usuario } from "./Usuario";
 @Index("idx_sesiones_usuario_activa", ["usuarioId", "activa"])
 @Entity("sesiones_usuario", { schema: "auth_security" })
 export class SesionUsuario {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
-  @Column("integer", { name: "usuario_id" })
-  usuarioId: number;
+  @Column("uuid", { name: "usuario_id" })
+  usuarioId: string;
 
   @Column("character varying", { name: "token_hash", length: 255 })
   tokenHash: string;

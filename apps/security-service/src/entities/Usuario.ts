@@ -6,8 +6,8 @@ import { Rol } from "./Rol";
 @Index("usuario_email_key", ["email"], { unique: true })
 @Entity("usuario", { schema: "auth_security" })
 export class Usuario {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
   @Column("uuid", { name: "documento_identidad_id" })
   documentoIdentidadId: string;
@@ -27,8 +27,8 @@ export class Usuario {
   @Column("character varying", { name: "telefono", nullable: true, length: 20 })
   telefono: string | null;
 
-  @Column("integer", { name: "rol_id" })
-  rolId: number;
+  @Column("uuid", { name: "rol_id" })
+  rolId: string;
 
   @Column("boolean", { name: "activo", nullable: true, default: () => "true" })
   activo: boolean | null;

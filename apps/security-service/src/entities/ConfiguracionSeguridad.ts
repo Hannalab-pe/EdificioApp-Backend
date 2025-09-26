@@ -4,8 +4,8 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Index("configuracion_seguridad_clave_key", ["clave"], { unique: true })
 @Entity("configuracion_seguridad", { schema: "auth_security" })
 export class ConfiguracionSeguridad {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
   @Column("character varying", { name: "clave", length: 50 })
   clave: string;

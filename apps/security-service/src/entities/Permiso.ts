@@ -4,8 +4,8 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 @Index("uk_permiso", ["modulo", "accion", "recurso"], { unique: true })
 @Entity("permisos", { schema: "auth_security" })
 export class Permiso {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
   @Column("character varying", { name: "modulo", length: 50 })
   modulo: string;

@@ -11,8 +11,8 @@ export enum NivelAcceso {
 @Index("rol_nombre_key", ["nombre"], { unique: true })
 @Entity("rol", { schema: "auth_security" })
 export class Rol {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
   @Column("character varying", { name: "nombre", length: 50 })
   nombre: string;
