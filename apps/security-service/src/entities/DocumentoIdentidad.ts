@@ -6,12 +6,12 @@ export enum TipoDocumento {
   CARNET_EXTRANJERIA = "CARNET_EXTRANJERIA"
 }
 
-@Index("documento_identidad_pkey", ["idDocumentoIdentidad"], { unique: true })
+@Index("documento_identidad_pkey", ["id"], { unique: true })
 @Index("uk_documento", ["tipo", "numero"], { unique: true })
 @Entity("documento_identidad", { schema: "auth_security" })
 export class DocumentoIdentidad {
-  @PrimaryGeneratedColumn("uuid", { name: "id_documento_identidad" })
-  idDocumentoIdentidad: string;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
   @Column("enum", {
     name: "tipo",

@@ -20,6 +20,9 @@ import { Usuario } from './Usuario';
         SesionUsuario,
         Usuario,
     ])],
-    exports: [TypeOrmModule],
+    exports: [
+        TypeOrmModule,
+        // Exportar también los repositorios específicos si es necesario
+    ],
 })
 export class EntitiesModule { }

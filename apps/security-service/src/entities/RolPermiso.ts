@@ -6,14 +6,14 @@ import { Permiso } from "./Permiso";
 @Index("uk_rol_permiso", ["rolId", "permisoId"], { unique: true })
 @Entity("rol_permiso", { schema: "auth_security" })
 export class RolPermiso {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
-  @Column("integer", { name: "rol_id" })
-  rolId: number;
+  @Column("uuid", { name: "rol_id" })
+  rolId: string;
 
-  @Column("integer", { name: "permiso_id" })
-  permisoId: number;
+  @Column("uuid", { name: "permiso_id" })
+  permisoId: string;
 
   @Column("boolean", { name: "concedido", nullable: true, default: () => "true" })
   concedido: boolean | null;

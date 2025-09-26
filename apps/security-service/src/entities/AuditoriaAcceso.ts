@@ -6,11 +6,11 @@ import { Usuario } from "./Usuario";
 @Index("idx_auditoria_usuario_timestamp", ["usuarioId", "timestamp"])
 @Entity("auditoria_accesos", { schema: "auth_security" })
 export class AuditoriaAcceso {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  @PrimaryGeneratedColumn("uuid", { name: "id" })
+  id: string;
 
-  @Column("integer", { name: "usuario_id", nullable: true })
-  usuarioId: number | null;
+  @Column("uuid", { name: "usuario_id", nullable: true })
+  usuarioId: string | null;
 
   @Column("character varying", { name: "accion", length: 100 })
   accion: string;
