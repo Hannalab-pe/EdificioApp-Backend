@@ -14,22 +14,22 @@ import { TipoContrato } from './TipoContrato';
 import { Trabajador } from './Trabajador';
 
 @Module({
-
-    imports: [TypeOrmModule.forFeature([
-        Arrendatario,
-        ContactoEmergencia,
-        Contrato,
-        EvaluacionTrabajador,
-        HistorialContrato,
-        HistorialResidencia,
-        Inmobiliaria,
-        PerfilPersona,
-        Propietario,
-        Residente,
-        TipoContrato,
-        Trabajador,
-    ])],
-    exports: [TypeOrmModule],
-
+  imports: [
+    TypeOrmModule.forFeature([
+      Arrendatario,
+      ContactoEmergencia,
+      Contrato,
+      EvaluacionTrabajador,
+      HistorialContrato,
+      HistorialResidencia,
+      Inmobiliaria,
+      PerfilPersona,
+      Propietario,
+      Residente,
+      TipoContrato,
+      Trabajador,
+    ]),
+  ],
+  exports: [TypeOrmModule],
 })
-export class EntitiesModule { }
+export class EntitiesModule {}

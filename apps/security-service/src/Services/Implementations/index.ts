@@ -1,5 +1,5 @@
 export { AuditoriaAccesoService } from './auditoria-acceso/auditoria-acceso.service';
-export { ConfiguracionSeguridadService } from './configuracion-seguridad/configuracion-seguridad.service';
+export { ConfiguracionSeguridadService } from '../../ConfiguracionSeguridad/configuracion-seguridad.service';
 export { DocumentoIdentidadService } from './documento-identidad/documento-identidad.service';
 export { PermisoService } from './permiso/permiso.service';
 export { RolService } from './rol/rol.service';

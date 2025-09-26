@@ -3,7 +3,9 @@ import { PropertyServiceService } from './property-service.service';
 
 @Controller()
 export class PropertyServiceController {
-  constructor(private readonly propertyServiceService: PropertyServiceService) {}
+  constructor(
+    private readonly propertyServiceService: PropertyServiceService,
+  ) {}
 
   @Get()
   getHello(): string {

@@ -14,20 +14,20 @@ import { TipoContratoController } from './tipo-contrato/tipo-contrato.controller
 import { TrabajadorController } from './trabajador/trabajador.controller';
 
 @Module({
-    imports: [ServicesModule],
-    controllers: [
-        ArrendatarioController,
-        ContactoEmergenciaController,
-        ContratoController,
-        EvaluacionTrabajadorController,
-        HistorialContraotController,
-        HistorialResidenciaController,
-        InmobiliariaController,
-        PerfilPersonaController,
-        PropietarioController,
-        ResidenteController,
-        TipoContratoController,
-        TrabajadorController,
-    ],
+  imports: [ServicesModule],
+  controllers: [
+    ArrendatarioController,
+    ContactoEmergenciaController,
+    ContratoController,
+    EvaluacionTrabajadorController,
+    HistorialContraotController,
+    HistorialResidenciaController,
+    InmobiliariaController,
+    PerfilPersonaController,
+    PropietarioController,
+    ResidenteController,
+    TipoContratoController,
+    TrabajadorController,
+  ],
 })
-export class ControllersModule { }
+export class ControllersModule {}

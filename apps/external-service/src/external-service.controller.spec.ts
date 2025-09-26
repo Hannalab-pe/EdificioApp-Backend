@@ -11,7 +11,9 @@ describe('ExternalServiceController', () => {
       providers: [ExternalServiceService],
     }).compile();
 
-    externalServiceController = app.get<ExternalServiceController>(ExternalServiceController);
+    externalServiceController = app.get<ExternalServiceController>(
+      ExternalServiceController,
+    );
   });
 
   describe('root', () => {

@@ -11,12 +11,16 @@ describe('SecurityServiceController', () => {
       providers: [SecurityServiceService],
     }).compile();
 
-    securityServiceController = app.get<SecurityServiceController>(SecurityServiceController);
+    securityServiceController = app.get<SecurityServiceController>(
+      SecurityServiceController,
+    );
   });
 
   describe('root', () => {
     it('should return "Security Service - Ready to develop!"', () => {
-      expect(securityServiceController.getHello()).toBe('Security Service - Ready to develop!');
+      expect(securityServiceController.getHello()).toBe(
+        'Security Service - Ready to develop!',
+      );
     });
   });
 });

@@ -8,6 +8,11 @@ import { ServicesModule } from './Services/services.module';
 import { UsuarioController } from './controllers/usuario/usuario.controller';
 import { RolController } from './controllers/rol/rol.controller';
 import { DocumentoIdentidadController } from './controllers/documento-identidad/documento-identidad.controller';
+import { PermisoController } from './controllers/permiso/permiso.controller';
+import { RolPermisoController } from './controllers/rol-permiso/rol-permiso.controller';
+import { SesionUsuarioController } from './controllers/sesion-usuario/sesion-usuario.controller';
+import { AuditoriaAccesoController } from './controllers/auditoria-acceso/auditoria-acceso.controller';
+import { ConfiguracionSeguridadController } from './ConfiguracionSeguridad/configuracion-seguridad.controller';
 
 @Module({
   imports: [
@@ -42,6 +47,11 @@ import { DocumentoIdentidadController } from './controllers/documento-identidad/
     UsuarioController,
     RolController,
     DocumentoIdentidadController,
+    PermisoController,
+    RolPermisoController,
+    SesionUsuarioController,
+    AuditoriaAccesoController,
+    ConfiguracionSeguridadController,
   ],
   providers: [SecurityServiceService],
 })

@@ -11,7 +11,9 @@ describe('ResidentServiceController', () => {
       providers: [ResidentServiceService],
     }).compile();
 
-    residentServiceController = app.get<ResidentServiceController>(ResidentServiceController);
+    residentServiceController = app.get<ResidentServiceController>(
+      ResidentServiceController,
+    );
   });
 
   describe('root', () => {

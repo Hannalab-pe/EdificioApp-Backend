@@ -11,8 +11,6 @@ import {
   CreateRolDto,
   UpdateRolDto,
   RolQuery,
-  RolResponseDto,
-  RolListResponseDto,
 } from '../../Interfaces/rol/irol.service';
 
 @Injectable()
@@ -22,7 +20,7 @@ export class RolService implements IRolService {
     private readonly rolRepository: Repository<Rol>,
   ) {}
 
-  async create(data: CreateRolDto): Promise<RolResponseDto> {
+  async create(data: CreateRolDto): Promise<Rol> {
     // Verificar si el nombre ya existe
     const existingRol = await this.rolRepository.findOne({
       where: { nombre: data.nombre },
@@ -37,11 +35,15 @@ export class RolService implements IRolService {
       activo: data.activo ?? true,
     });
 
-    const savedRol = await this.rolRepository.save(rol);
-    return new RolResponseDto(savedRol);
+    return await this.rolRepository.save(rol);
   }
 
-  async findAll(query: RolQuery = {}): Promise<RolListResponseDto> {
+  async findAll(query: RolQuery = {}): Promise<{
+    roles: Rol[];
+    total: number;
+    page: number;
+    totalPages: number;
+  }> {
     const { page = 1, limit = 10, nombre, nivelAcceso, activo } = query;
 
     const queryBuilder = this.rolRepository.createQueryBuilder('rol');
@@ -71,15 +73,15 @@ export class RolService implements IRolService {
     const [roles, total] = await queryBuilder.getManyAndCount();
     const totalPages = Math.ceil(total / limit);
 
-    return new RolListResponseDto({
-      roles: roles.map((rol) => new RolResponseDto(rol)),
+    return {
+      roles,
       total,
       page,
       totalPages,
-    });
+    };
   }
 
-  async findOne(id: string): Promise<RolResponseDto> {
+  async findOne(id: string): Promise<Rol> {
     const rol = await this.rolRepository.findOne({
       where: { id },
     });
@@ -88,10 +90,10 @@ export class RolService implements IRolService {
       throw new NotFoundException('Rol no encontrado');
     }
 
-    return new RolResponseDto(rol);
+    return rol;
   }
 
-  async findByName(nombre: string): Promise<RolResponseDto> {
+  async findByName(nombre: string): Promise<Rol> {
     const rol = await this.rolRepository.findOne({
       where: { nombre },
     });
@@ -100,18 +102,11 @@ export class RolService implements IRolService {
       throw new NotFoundException('Rol no encontrado');
     }
 
-    return new RolResponseDto(rol);
+    return rol;
   }
 
-  async update(id: string, data: UpdateRolDto): Promise<RolResponseDto> {
-    // Primero buscar el rol en la base de datos directamente
-    const rol = await this.rolRepository.findOne({
-      where: { id },
-    });
-
-    if (!rol) {
-      throw new NotFoundException('Rol no encontrado');
-    }
+  async update(id: string, data: UpdateRolDto): Promise<Rol> {
+    const rol = await this.findOne(id);
 
     // Si se está cambiando el nombre, verificar que no exista
     if (data.nombre && data.nombre !== rol.nombre) {
@@ -127,45 +122,28 @@ export class RolService implements IRolService {
     Object.assign(rol, data);
     rol.updatedAt = new Date();
 
-    const updatedRol = await this.rolRepository.save(rol);
-    return new RolResponseDto(updatedRol);
+    return await this.rolRepository.save(rol);
   }
 
   async remove(id: string): Promise<void> {
-    const rol = await this.rolRepository.findOne({
-      where: { id },
-    });
-
-    if (!rol) {
-      throw new NotFoundException('Rol no encontrado');
-    }
-
+    const rol = await this.findOne(id);
     await this.rolRepository.remove(rol);
   }
 
   async softDelete(id: string): Promise<void> {
-    const rol = await this.rolRepository.findOne({
-      where: { id },
-    });
-
-    if (!rol) {
-      throw new NotFoundException('Rol no encontrado');
-    }
-
+    const rol = await this.findOne(id);
     rol.activo = false;
     rol.updatedAt = new Date();
     await this.rolRepository.save(rol);
   }
 
-  async findByNivelAcceso(nivelAcceso: NivelAcceso): Promise<RolResponseDto[]> {
-    const roles = await this.rolRepository.find({
+  async findByNivelAcceso(nivelAcceso: NivelAcceso): Promise<Rol[]> {
+    return await this.rolRepository.find({
       where: {
         nivelAcceso,
         activo: true,
       },
       order: { nombre: 'ASC' },
     });
-
-    return roles.map((rol) => new RolResponseDto(rol));
   }
 }

@@ -3,7 +3,9 @@ import { FinancialServiceService } from './financial-service.service';
 
 @Controller()
 export class FinancialServiceController {
-  constructor(private readonly financialServiceService: FinancialServiceService) {}
+  constructor(
+    private readonly financialServiceService: FinancialServiceService,
+  ) {}
 
   @Get()
   getHello(): string {

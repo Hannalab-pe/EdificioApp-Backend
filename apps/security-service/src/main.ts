@@ -8,7 +8,9 @@ async function bootstrap() {
   // Configuración de Swagger
   const config = new DocumentBuilder()
     .setTitle('Security Service API')
-    .setDescription('API para gestión de autenticación, usuarios, roles y permisos')
+    .setDescription(
+      'API para gestión de autenticación, usuarios, roles y permisos',
+    )
     .setVersion('1.0')
     .addTag('usuarios', 'Gestión de usuarios del sistema')
     .addTag('roles', 'Gestión de roles y permisos')
@@ -22,6 +24,8 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(`🚀 Security Service running on: http://localhost:${port}`);
-  console.log(`📚 Swagger docs available at: http://localhost:${port}/api/docs`);
+  console.log(
+    `📚 Swagger docs available at: http://localhost:${port}/api/docs`,
+  );
 }
 bootstrap();

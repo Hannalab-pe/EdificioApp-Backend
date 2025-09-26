@@ -5,7 +5,7 @@ import { ApiGatewayService } from './api-gateway.service';
 @ApiTags('General')
 @Controller()
 export class ApiGatewayController {
-  constructor(private readonly apiGatewayService: ApiGatewayService) { }
+  constructor(private readonly apiGatewayService: ApiGatewayService) {}
 
   @Get()
   @ApiOperation({ summary: 'Obtener información del API Gateway' })
